@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Quote {
+  id        Int      @id @default(autoincrement())
+  public    Boolean  @default(false)
+  authorId  Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subquotes Subquote[]
+  author    User?    @relation(fields: [authorId], references: [id])
+}
+
+model Subquote {
+  @@id([ quoteId, subquoteId ])
+  quoteId     Int
+  subquoteId  Int
+  text        String
+  quotee      String
+
+  quote   Quote @relation(fields: [quoteId], references: [id])
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authoredQuotes Quote[]
+
+  invitations UserInvitation[]
+
+  invitees    User[] @relation("Invitations")
+  invitedBy   User?  @relation("Invitations", fields: [invitedById], references: [id])
+  invitedById Int?
+}
+
+model UserInvitation {
+  id          Int      @id @default(autoincrement())
+  token       String   @unique
+  createdAt   DateTime @default(now())
+
+  createdBy   User     @relation(fields: [createdById], references: [id])
+  createdById Int
+}
