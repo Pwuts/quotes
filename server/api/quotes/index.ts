@@ -22,7 +22,7 @@ export default async function quotes(req: IncomingMessage, res: ServerResponse)
           public: true,
         },
         include: {
-          subquotes: { select: { subquoteId: true, text: true, quotee: true }},
+          subquotes: { select: { subquoteId: true, text: true, quotee: true, isAction: true }},
         },
       });
 
@@ -38,6 +38,7 @@ export default async function quotes(req: IncomingMessage, res: ServerResponse)
         subquotes: {
           text: string,
           quotee: string,
+          isAction?: boolean,
         }[]
       }>(req);
 
@@ -60,13 +61,12 @@ export default async function quotes(req: IncomingMessage, res: ServerResponse)
           subquotes: {
             create: input.subquotes.map((s, i: number) => ({
               subquoteId: i + 1,
-              quotee: s.quotee,
-              text: s.text,
+              ...s,
             })),
           },
         },
         include: {
-          subquotes: { select: { subquoteId: true, text: true, quotee: true }},
+          subquotes: { select: { subquoteId: true, text: true, quotee: true, isAction: true }},
         },
       });
 
@@ -79,16 +79,13 @@ export default async function quotes(req: IncomingMessage, res: ServerResponse)
     const quote = await prisma.quote.findUnique({
       where: Object.assign(
         { id: quoteId },
-        req.user ? {} : {
-          public: true,
-        }
       ),
       include: {
-        subquotes: { select: { subquoteId: true, text: true, quotee: true }},
+        subquotes: { select: { subquoteId: true, text: true, quotee: true, isAction: true }},
       },
     });
 
-    if (!quote) {
+    if (!quote || (!req.user && !quote.public)) {
       return sendError(res, createError(404));
     }
 
@@ -102,6 +99,7 @@ export default async function quotes(req: IncomingMessage, res: ServerResponse)
           subquoteId: number,
           text: string,
           quotee: string,
+          isAction: boolean,
         }[]
       }>(req);
 
@@ -142,7 +140,7 @@ export default async function quotes(req: IncomingMessage, res: ServerResponse)
           }
         },
         include: {
-          subquotes: { select: { subquoteId: true, text: true, quotee: true }},
+          subquotes: { select: { subquoteId: true, text: true, quotee: true, isAction: true }},
         },
       });
 

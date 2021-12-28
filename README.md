@@ -9,14 +9,17 @@ Started for use in a friend group, this project is both a very minimal quote DB 
   - [x] Users
     - [x] Login
     - [x] Invite & register
-- [ ] User interface
-  - [ ] List quotes
-  - [ ] Log in & register
-  - [ ] Profile
-  - [ ] Invite
+- [x] User interface
+  - [x] List quotes
+  - [x] Log in & register
+  - [x] Profile
+  - [x] Invite
   - [ ] Edit quotes
 - [ ] Complete README
 - [ ] Docker configuration
+- [ ] Unbodge
+  - [ ] Use native store instead of bodged cookie store for state persistence
+  - [ ] Make a proper API client
 
 ## Use
 The database does not contain any data out of the box. You also don't need an invite token to create the first user account.

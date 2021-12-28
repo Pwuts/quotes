@@ -27,8 +27,9 @@ model Subquote {
   subquoteId  Int
   text        String
   quotee      String
+  isAction    Boolean @default(false)
 
-  quote   Quote @relation(fields: [quoteId], references: [id])
+  quote       Quote   @relation(fields: [quoteId], references: [id])
 }
 
 model User {

@@ -19,9 +19,19 @@ export default async function viewProfile(req: IncomingMessage, res: ServerRespo
     include: {
       authoredQuotes: {
         include: {
-          subquotes: { select: { subquoteId: true, text: true, quotee: true }},
+          subquotes: { select: {
+            subquoteId: true,
+            text: true,
+            quotee: true,
+            isAction: true,
+          }},
         }
       },
+      _count: { select: {
+        invitees: true,
+        invitations: true,
+        authoredQuotes: true,
+      }},
     },
     where: { id: req.user.id },
   });
