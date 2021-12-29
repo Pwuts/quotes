@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { Quote, Subquote } from '@prisma/client'
-import { formatDate } from '~~/util/date-helpers'
+import { formatDate } from '~/util/date-helpers'
 
 const { quote } = defineProps<{
   quote: (Quote & { subquotes: Omit<Subquote, 'quoteId'>[]}),

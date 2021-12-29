@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { isMethod, sendError } from 'h3'
 import cryptoRandomString from 'crypto-random-string'
-import { createError } from '~~/server/error-helpers'
+import { createError } from '~/server/error-helpers'
 import Prisma from '@prisma/client'
 
 const prisma = new Prisma.PrismaClient();

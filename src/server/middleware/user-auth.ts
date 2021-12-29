@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http'
-import { createError } from '~~/server/error-helpers'
+import { createError } from '~/server/error-helpers'
 import { sendError } from 'h3'
 import Prisma from '@prisma/client'
 import jwt from 'jsonwebtoken'

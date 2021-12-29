@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { isMethod, sendError, useBody } from 'h3'
-import { createError } from '~~/server/error-helpers'
+import { createError } from '~/server/error-helpers'
 import Prisma from '@prisma/client'
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
