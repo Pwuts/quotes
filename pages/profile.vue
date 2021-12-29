@@ -15,7 +15,7 @@
 const authState = useAuthState();
 const router = useRouter();
 
-if (!authState.loggedIn) {
+if (!authState.value.loggedIn) {
   router.push('/login');
 }
 

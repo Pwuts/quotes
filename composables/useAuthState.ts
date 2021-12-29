@@ -1,4 +1,5 @@
 import { useCookie } from '#app'
+import { Ref } from 'nuxt3/dist/app/compat/capi'
 
 type _AuthState = {
   loggedIn: boolean,
@@ -10,7 +11,7 @@ type _AuthState = {
   jwt?: string,
 }
 
-export type AuthState = _AuthState & {
+export type AuthState = Ref<_AuthState> & {
   getAuthHeader: () => Record<string, string>,
   set(state: _AuthState): void,
   reset(): void,
@@ -22,77 +23,43 @@ const _defaultAuthState: _AuthState = {
   jwt: undefined,
 };
 
-export default function useAuthState()
+export default function useAuthState(): AuthState
 {
   const authStateStorage = useCookie<string>(
-    'authState',
+    'authStateStorage',
     {
       maxAge: 149*24*3600,
       default: () => JSON.stringify(_defaultAuthState),
     }
   );
 
-  function _load(): _AuthState {
-    // dirty hack because server does implicit JSON parse
-    return typeof authStateStorage.value == 'string'
-      ? JSON.parse(authStateStorage.value)
-      : authStateStorage.value;
-  }
-  function _store(obj: _AuthState) {
-    authStateStorage.value = JSON.stringify(obj);
-  }
-
-  const authState: AuthState = {
-    get loggedIn() {
-      return _load().loggedIn;
+  const authState: Ref<_AuthState> = useState(
+    'authState',
+    () => {
+      return typeof authStateStorage.value == 'string'
+        ? JSON.parse(authStateStorage.value)
+        : authStateStorage.value;
     },
+  );
 
-    get jwt() {
-      return _load().jwt;
-    },
+  watch(authState.value, (newState) => authStateStorage.value = JSON.stringify(newState));
 
-    get user() {
-      return _load().user;
-    },
-
-    set loggedIn(value: boolean) {
-      _store({
-        ..._load(),
-        loggedIn: value,
-      });
-    },
-
-    set jwt(value: string) {
-      _store({
-        ..._load(),
-        jwt: value,
-      });
-    },
-
-    set user(value: _AuthState['user']) {
-      _store({
-        ..._load(),
-        user: value,
-      });
-    },
-
+  return Object.assign(authState, {
     getAuthHeader(): Record<string, string>
     {
-      return !authState.jwt ? {} : {
-        'authorization': `Bearer ${authState.jwt}`
+      return !authState.value.jwt ? {} : {
+        'authorization': `Bearer ${authState.value.jwt}`
       };
     },
 
     set(state: _AuthState): void
     {
-      _store(state);
+      Object.assign(authState.value, _defaultAuthState, state);
     },
 
     reset(): void
     {
-      _store(_defaultAuthState);
+      Object.assign(authState.value, _defaultAuthState);
     },
-  }
-
-  return authState;
+  });
 }
