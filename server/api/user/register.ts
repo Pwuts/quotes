@@ -58,6 +58,7 @@ export default async function register(req: IncomingMessage, res: ServerResponse
   }, process.env.JWT_SECRET);
 
   return {
+    id: user.id,
     name: user.name,
     email: user.email,
     token,

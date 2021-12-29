@@ -4,6 +4,7 @@ import { Ref } from 'nuxt3/dist/app/compat/capi'
 type _AuthState = {
   loggedIn: boolean,
   user?: {
+    id: number,
     name: string,
     email: string,
   },

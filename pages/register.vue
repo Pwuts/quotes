@@ -62,7 +62,7 @@ function attemptSignup()
     authState.set({
       loggedIn: true,
       jwt: (response as { token: string }).token,
-      user: { name: response.name, email: response.email },
+      user: { id: response.id, name: response.name, email: response.email },
     });
     router.push('/');
   })
