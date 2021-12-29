@@ -4,7 +4,7 @@
 
   <div class="sub">
     <NuxtLink to="/login" v-if="!authState.loggedIn">log in</NuxtLink>
-    <NuxtLink to="/"      v-else @click="logOut">log uit</NuxtLink>
+    <a href="#"           v-else @click="logOut">log uit</a>
 
     <NuxtLink to="/register" v-if="!authState.loggedIn">registreer</NuxtLink>
     <NuxtLink to="/profile"  v-else>profiel</NuxtLink>

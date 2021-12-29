@@ -5,7 +5,12 @@
   <span class="stats">
     <em>{{ profile._count.authoredQuotes }}</em> quotes
     &nbsp; - &nbsp;
-    <em>{{ profile._count.invitees }}</em> gebruikers <a href="#" @click="invite">uitgenodigd</a>
+    <em>{{ profile._count.invitees }}</em> gebruikers
+    <a href="#"
+      @click="invite"
+      title="klik hier om een uitnodigingslink te maken">
+      uitgenodigd
+    </a>
   </span>
   <QuoteList :quotes="profile.authoredQuotes"/>
 </div>

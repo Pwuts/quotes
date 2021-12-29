@@ -7,7 +7,7 @@ import { Quote, Subquote } from '@prisma/client'
 const authState = useAuthState();
 
 /* fetch quotes & sort by date */
-const { data: quotes } = await useAsyncData(
+const { data: quotes, refresh: refreshQuotes } = await useAsyncData(
   'quotes',
   async () => $fetch('/api/quotes', { headers: authState.getAuthHeader() }),
   {
@@ -16,4 +16,6 @@ const { data: quotes } = await useAsyncData(
       .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))
   }
 );
+
+watch(authState.value, () => refreshQuotes());
 </script>
