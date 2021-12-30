@@ -45,6 +45,7 @@ function formatSubquote(subquote: Omit<Subquote, 'quoteId'>): string
     }
   }
   .quotee {
+    white-space: nowrap;
     font-size: 1.4em;
     color: var(--secondary-text);
   }
