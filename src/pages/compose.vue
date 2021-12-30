@@ -76,7 +76,6 @@ let newQuote: EmptyQuote = reactive({
   public: true,
   subquotes: [
     {
-      subquoteId: 1,
       quotee: '',
       text: '',
       isAction: false,
@@ -87,7 +86,6 @@ let newQuote: EmptyQuote = reactive({
 function addSubquote()
 {
   newQuote.subquotes.push({
-    subquoteId: newQuote.subquotes.length,
     isAction: false,
     quotee: '',
     text: '',
@@ -124,7 +122,7 @@ function attemptSaveQuote()
 
 type EmptyQuote =
   Omit<QuoteType, 'id' | 'createdAt' | 'updatedAt'>
-  & { subquotes: Omit<SubquoteType, 'quoteId'>[] };
+  & { subquotes: Omit<SubquoteType, 'quoteId' | 'subquoteId'>[] };
 </script>
 
 <style lang="scss">

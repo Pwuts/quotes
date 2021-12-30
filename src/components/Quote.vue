@@ -27,7 +27,7 @@ const { quote } = defineProps<{
 
 function formatSubquote(subquote: Omit<Subquote, 'quoteId'>): string
 {
-  return subquote.isAction ? subquote.text : `"${subquote.text}"`;
+  return subquote.isAction ? `*${subquote.text}*` : `"${subquote.text}"`;
 }
 </script>
 
