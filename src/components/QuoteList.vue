@@ -22,7 +22,7 @@ const { quotes } = defineProps<{
 
 /* filter quotes by search query */
 let query = ref('');
-const filteredQuotes = computed(() => !query ? quotes :
+const filteredQuotes = computed(() => !query.value ? quotes :
   quotes.filter(q =>
     q.subquotes.some(sq =>
       sq.text.toLowerCase().includes(query.value.toLowerCase())
