@@ -24,12 +24,15 @@ export default async function register(req: IncomingMessage, res: ServerResponse
     inviteToken: string,
   }>(req);
 
+  let invite: Prisma.UserInvitation;
   if (!inviteToken && await prisma.user.count() > 0) {
     return sendError(res, createError(400, 'inviteToken is required'));
   }
-  const invite = await prisma.userInvitation.findUnique({ where: { token: inviteToken }});
-  if (!invite) {
-    return sendError(res, createError(401, 'invalid invite token'));
+  else {
+    invite = await prisma.userInvitation.findUnique({ where: { token: inviteToken }});
+    if (!invite) {
+      return sendError(res, createError(401, 'invalid invite token'));
+    }
   }
 
   if ([name, email, password].some(v => !v || typeof v != 'string')) {
