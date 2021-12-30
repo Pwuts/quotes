@@ -1,5 +1,5 @@
 <template>
-<div class="quote-list">
+<div class="container quote-list">
   <input type="search" placeholder="zoeken" v-model="query"/>
 
   <h2 class="clickable add-quote"
@@ -34,12 +34,15 @@ const filteredQuotes = computed(() => !query.value ? quotes :
 
 <style lang="scss">
 .quote-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @media screen and (max-width: 500px) {
+    font-size: 0.75rem;
+  }
 
-  .quote:not(:first-of-type) {
+  .quote {
     margin-top: 5em;
+  }
+  h2.add-quote + .quote {
+    margin-top: 1em;
   }
 }
 </style>

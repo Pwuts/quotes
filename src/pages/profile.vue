@@ -1,5 +1,5 @@
 <template>
-<div class="profile">
+<div class="profile container">
   <h1 class="name">{{authState.user.name}}</h1>
   <h4 class="email">{{authState.user.email}}</h4>
   <span class="stats">
@@ -56,10 +56,7 @@ function invite()
 
 <style lang="scss">
 .profile {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
 
   .name, .email {
     margin: 0.25em 0;

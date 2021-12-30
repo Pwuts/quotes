@@ -10,9 +10,9 @@
     <NuxtLink to="/profile"  v-else>profiel</NuxtLink>
   </div>
 </div>
-<div class="container">
+<main class="container">
   <NuxtPage/>
-</div>
+</main>
 </template>
 
 <script lang="ts" setup>
@@ -34,6 +34,10 @@ function logOut()
   --primary-text: #FFF8;
   --secondary-text: #FFF6;
   --tertiary-text: #FFF4;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -63,14 +67,23 @@ body {
   }
 }
 
+main {
+  padding: 0.5em 2em 1.5em;
+
+  @media screen and (max-width: 500px) {
+    padding: 0.5em;
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  padding: 0.5em 2em 1.5em;
+  > * {
+    max-width: 100%;
+  }
 }
-
 
 a, a:visited {
   color: var(--secondary-text);

@@ -1,5 +1,5 @@
 <template>
-<form onsubmit="return false">
+<form class="container" onsubmit="return false">
   <input type="email"
     autocomplete="email"
     placeholder="email"
@@ -54,12 +54,10 @@ function attemptLogin()
 
 <style lang="scss">
 form {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
 
   input, button {
+    flex: 0 1 auto;
     margin: 0.5em;
   }
 }
