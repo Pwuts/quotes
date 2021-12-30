@@ -37,6 +37,8 @@ const { data: profile } = await useAsyncData(
   }
 );
 
+useMeta({ title: `${profile.value.name} @ QuoteDB` });
+
 function invite()
 {
   if (profile.value._count.invitations >= 5) {
