@@ -24,14 +24,16 @@ export default async function register(req: IncomingMessage, res: ServerResponse
     inviteToken: string,
   }>(req);
 
-  let invite: Prisma.UserInvitation;
-  if (!inviteToken && await prisma.user.count() > 0) {
-    return sendError(res, createError(400, 'inviteToken is required'));
-  }
-  else {
-    invite = await prisma.userInvitation.findUnique({ where: { token: inviteToken }});
-    if (!invite) {
-      return sendError(res, createError(401, 'invalid invite token'));
+  let invite: Prisma.UserInvitation | undefined;
+  if (await prisma.user.count() > 0) {
+    if (!inviteToken) {
+      return sendError(res, createError(400, 'inviteToken is required'));
+    }
+    else {
+      invite = await prisma.userInvitation.findUnique({ where: { token: inviteToken }});
+      if (!invite) {
+        return sendError(res, createError(401, 'invalid invite token'));
+      }
     }
   }
 
@@ -49,10 +51,12 @@ export default async function register(req: IncomingMessage, res: ServerResponse
     name,
     email,
     password: passHash,
-    invitedById: invite.createdById,
+    invitedById: invite?.createdById,
   }});
 
-  await prisma.userInvitation.delete({ where: { id: invite.id } });
+  if (invite) {
+    await prisma.userInvitation.delete({ where: { id: invite.id } });
+  }
 
   const token = jwt.sign({
     userId: user.id,
