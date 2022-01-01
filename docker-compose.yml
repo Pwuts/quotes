@@ -6,6 +6,7 @@ services:
     image: quotes-server
     environment:
       - DATABASE_URL
+      - JWT_SECRET
       - NUXT_HOST=0.0.0.0
       - VIRTUAL_HOST=hoerkomtdelink.nl
       - LETSENCRYPT_HOST=hoerkomtdelink.nl
