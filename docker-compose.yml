@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  server:
+    build: .
+    image: quotes-server
+    environment:
+      - DATABASE_URL
+      - NUXT_HOST=0.0.0.0
+      - VIRTUAL_HOST=hoerkomtdelink.nl
+      - LETSENCRYPT_HOST=hoerkomtdelink.nl
+    networks:
+      - postgres
+      - web
+    restart: unless-stopped
+
+networks:
+  postgres:
+    external: true
+  web:
+    external: true
