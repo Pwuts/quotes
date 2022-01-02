@@ -138,7 +138,8 @@ input[type=email], input[type=password] {
 
 i.icon, .text-icon {
   font-style: normal;
-  letter-spacing: -0.2em;
+  user-select: none;
+  letter-spacing: -0.1em;
   color: #FFFC;
 
   &.disabled {

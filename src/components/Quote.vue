@@ -18,7 +18,12 @@
   </tbody>
   </table>
 
-  <span class="date" v-text="formatDate(quote.createdAt)"></span>
+  <span class="meta">
+    <i class="icon" v-if="authState.loggedIn && !quote.public"
+      title="deze quote is niet publiek"
+    >🙈</i>
+    {{ formatDate(quote.createdAt) }}
+  </span>
 </div>
 </div>
 </template>
@@ -26,6 +31,7 @@
 <script lang="ts" setup>
 import { Quote, Subquote } from '@prisma/client'
 import { formatDate } from '~/util/date-helpers'
+const authState = useAuthState();
 
 const { quote } = defineProps<{
   quote: (Quote & { subquotes: Omit<Subquote, 'quoteId'>[]}),
@@ -97,7 +103,7 @@ function formatSubquote(subquote: Omit<Subquote, 'quoteId'>): string
     }
   }
 
-  .date {
+  .meta {
     font-size: 0.8em;
     float: right;
     color: var(--tertiary-text);

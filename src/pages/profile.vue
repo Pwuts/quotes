@@ -47,9 +47,10 @@ function invite()
   }
 
   $fetch('/api/user/invite', { headers: authState.getAuthHeader() })
-  .then((result: { inviteToken: string, otherInvites: { token: string, id: number, }[], invitesLeft: number }) =>
-    navigator.clipboard.writeText(`${window.location.origin}/register?inviteToken=${result.inviteToken}`)
-  )
+  .then((result: { inviteToken: string, otherInvites: { token: string, id: number, }[], invitesLeft: number }) => {
+    navigator.clipboard.writeText(`${window.location.origin}/register?inviteToken=${result.inviteToken}`);
+    alert('uitnodigingslink gekopieerd :)');
+  })
   .catch(e => console.warn('invite failed:', e));
 }
 </script>
