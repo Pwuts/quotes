@@ -23,11 +23,12 @@
     <tbody>
       <tr class="subquote" v-for="(subquote, i) in newQuote.subquotes"
         :ref="(el: HTMLTableRowElement) => { if (el) subquoteLines[i] = el; }"
+        :title="subquoteValidateErrors[i]"
       >
         <td class="quotee nowrap">
           <input type="text"
             placeholder="iedereen"
-            :class="{ error: saveError }"
+            :class="{ error: saveError && subquoteValidateErrors[i] }"
             v-model="subquote.quotee"
           />:
         </td>
@@ -40,7 +41,7 @@
 
           <input type="text"
             placeholder="haha deze site is echt cool"
-            :class="{ error: saveError }"
+            :class="{ error: saveError && subquoteValidateErrors[i] }"
             v-model="subquote.text"
             @keyup.enter="gotoNext(i)"
           />
@@ -168,22 +169,36 @@ function moveSubquoteDown(i: number)
   );
 }
 
-let saveError = false;
+const subquoteRules: ((s: EmptyQuote['subquotes'][number]) => string | null)[] = [
+  s => s.quotee.length >= 3 ? null : 'naam moet 3 tekens of langer zijn',
+  s => s.text.length > 0 ? null : 'regel moet tekst bevatten',
+];
+
+const subquoteValidateErrors = ref<(string | null)[]>([]);
+
+/** @returns boolean indicating whether all subquotes are valid or not */
+function validateSubquotes(sq: EmptyQuote['subquotes']): boolean
+{
+  return !sq.reduce(
+    (a, c, i) => subquoteRules.some(r => subquoteValidateErrors.value[i] = r(c)) || a,
+    false
+  );
+}
+
+watch(newQuote.subquotes, (sq) => saveError.value = !validateSubquotes(sq) && saveError.value);
+
+const saveError = ref(false);
 function attemptSaveQuote()
 {
   if (newQuote.subquotes.length == 0) {
-    saveError = true;
-    alert('geen regels = geen quote :(');
-    console.debug(saveError);
+    saveError.value = true;
     return;
   }
 
-  if (!newQuote.subquotes.every(
-    subquote => subquote.quotee.length >= 3 && subquote.text.length > 0
-  )) {
-    saveError = true;
-    alert('te weinig tekst in de vakjes :(');
-    console.debug(saveError);
+  const hasInvalidSubquotes = !validateSubquotes(newQuote.subquotes);
+
+  if (hasInvalidSubquotes) {
+    saveError.value = true;
     return;
   }
 
@@ -196,18 +211,22 @@ function attemptSaveQuote()
     },
   })
   .then(() => {
-    console.debug('blab');
-    saveError = false;
+    saveError.value = false;
     router.push('/');
   })
   .catch(() => {
-    saveError = true;
+    saveError.value = true;
   });
 }
 
 type EmptyQuote =
   Omit<QuoteType, 'id' | 'createdAt' | 'updatedAt'>
-  & { subquotes: Omit<SubquoteType, 'quoteId' | 'subquoteId'>[] };
+  & {
+    subquotes: (
+      Omit<SubquoteType, 'quoteId' | 'subquoteId'>
+      & { validationError?: string }
+    )[]
+  };
 </script>
 
 <style lang="scss">
@@ -217,10 +236,17 @@ p.public-prompt {
 }
 
 .quote.new-quote {
+  font-size: 1.25em;
+
+  @media screen and (max-width: 600px) {
+    font-size: 1em;
+  }
+
   table {
     width: auto;
     max-width: 40em;
     table-layout: auto;
+    border-spacing: 0.75em;
 
     .subquote {
       .subquote-text,
