@@ -1,5 +1,7 @@
 <template>
-<QuoteList :quotes="quotes"/>
+<main class="container">
+  <QuoteList :quotes="quotes"/>
+</main>
 </template>
 
 <script lang="ts" setup>

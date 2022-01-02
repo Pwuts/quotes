@@ -1,21 +1,23 @@
 <template>
-<form class="container" onsubmit="return false">
-  <input type="email"
-    autocomplete="email"
-    placeholder="email"
-    v-model="email"
-    :class="{ error: loginFailed }"
-  />
+<main class="vcentered container">
+  <form class="container" onsubmit="return false">
+    <input type="email"
+      autocomplete="email"
+      placeholder="email"
+      v-model="email"
+      :class="{ error: loginFailed }"
+    />
 
-  <input type="password"
-    autocomplete="current-password"
-    placeholder="password"
-    v-model="password"
-    :class="{ error: loginFailed }"
-  />
+    <input type="password"
+      autocomplete="current-password"
+      placeholder="password"
+      v-model="password"
+      :class="{ error: loginFailed }"
+    />
 
-  <button @click="attemptLogin">log in</button>
-</form>
+    <button @click="attemptLogin">log in</button>
+  </form>
+</main>
 </template>
 
 <script lang="ts" setup>
@@ -54,8 +56,6 @@ function attemptLogin()
 
 <style lang="scss">
 form {
-  justify-content: center;
-
   input, button {
     flex: 0 1 auto;
     margin: 0.5em;

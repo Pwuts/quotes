@@ -1,5 +1,5 @@
 <template>
-<div class="profile container">
+<main class="profile vcentered container">
   <h1 class="name">{{authState.user.name}}</h1>
   <h4 class="email">{{authState.user.email}}</h4>
   <span class="stats">
@@ -13,7 +13,7 @@
     </a>
   </span>
   <QuoteList :quotes="profile.authoredQuotes"/>
-</div>
+</main>
 </template>
 
 <script lang="ts" setup>
@@ -55,9 +55,7 @@ function invite()
 </script>
 
 <style lang="scss">
-.profile {
-  justify-content: center;
-
+main.profile {
   .name, .email {
     margin: 0.25em 0;
   }

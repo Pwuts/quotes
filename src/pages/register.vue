@@ -1,35 +1,37 @@
 <template>
-<form onsubmit="return false">
-  <input type="text"
-    autocomplete="name"
-    placeholder="name"
-    v-model="name"
-    :class="{ error: signupFailed }"
-  />
+<main class="vcentered container">
+  <form class="container" onsubmit="return false">
+    <input type="text"
+      autocomplete="name"
+      placeholder="name"
+      v-model="name"
+      :class="{ error: signupFailed }"
+    />
 
-  <input type="email"
-    autocomplete="email"
-    placeholder="email"
-    v-model="email"
-    :class="{ error: signupFailed }"
-  />
+    <input type="email"
+      autocomplete="email"
+      placeholder="email"
+      v-model="email"
+      :class="{ error: signupFailed }"
+    />
 
-  <input type="password"
-    autocomplete="new-password"
-    placeholder="password"
-    v-model="password"
-    :class="{ error: signupFailed }"
-  />
+    <input type="password"
+      autocomplete="new-password"
+      placeholder="password"
+      v-model="password"
+      :class="{ error: signupFailed }"
+    />
 
-  <input type="text"
-    autocomplete="one-time-code"
-    placeholder="invite token"
-    v-model="inviteToken"
-    :class="{ error: signupFailed }"
-  />
+    <input type="text"
+      autocomplete="one-time-code"
+      placeholder="invite token"
+      v-model="inviteToken"
+      :class="{ error: signupFailed }"
+    />
 
-  <button @click="attemptSignup">registreer</button>
-</form>
+    <button @click="attemptSignup">registreer</button>
+  </form>
+</main>
 </template>
 
 <script lang="ts" setup>
@@ -75,11 +77,6 @@ function attemptSignup()
 
 <style lang="scss">
 form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
   input, button {
     margin: 0.5em;
   }

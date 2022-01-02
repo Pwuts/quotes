@@ -34,10 +34,6 @@ const filteredQuotes = computed(() => !query.value ? quotes :
 
 <style lang="scss">
 .quote-list {
-  @media screen and (max-width: 500px) {
-    font-size: 0.75rem;
-  }
-
   .quote-wrapper {
     margin-top: 5em;
   }
