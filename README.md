@@ -1,4 +1,4 @@
-~~Nuxt 3 Minimal Starter~~ QuoteDB
+QuoteDB
 ==================================
 Started for use in a friend group, this project is both a very minimal quote DB and a nice PoC for Nuxt3 + Prisma with an API and JWT authentication.
 
@@ -16,7 +16,7 @@ Started for use in a friend group, this project is both a very minimal quote DB 
   - [x] Invite
   - [ ] Edit quotes
 - [ ] Complete README
-- [ ] Docker configuration
+- [x] Docker configuration
 - [ ] Unbodge
   - [ ] Use native store instead of bodged cookie store for state persistence
   - [ ] Make a proper API client
@@ -52,7 +52,7 @@ The table below explains the authentication/authorization indications in the [en
 
 
 ## Wanna help?
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
+First of all, check out the Nuxt 3 [documentation](https://v3.nuxtjs.org). Keep in mind this version of the framework is in beta.
 
 ### Setup
 1. Install dependencies
@@ -66,6 +66,7 @@ We recommend to look at the [documentation](https://v3.nuxtjs.org).
     ```bash
     npx prisma migrate dev
     ```
+    In order for this to work, the configured database user needs permission to connect and to query and alter tables.
 
 ### Development
 Start the development server on http://localhost:3000
@@ -73,15 +74,26 @@ Start the development server on http://localhost:3000
 yarn dev
 ```
 
-### Production
+### Test build
 Build the application for production:
 ```bash
 yarn build
 ```
 
-In the production environment, also don't forget to run migrations:
+You can also test migrations in production mode using:
 ```bash
 npx prisma migrate deploy
 ```
+Again, the configured database user needs to have permission to alter the DB schema in order for Prisma to work.
 
-Check out the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+## Deployment on Docker
+The docker configuration in this repository is made for the following environment:
+
+* An `nginx-proxy` (with `acme-companion`) container handles incoming HTTP traffic and certificates, and is reachable via a docker network named `web`.
+* A Postgres database is reachable via a docker network named `postgres`; its URL and credentials for it are set in the `DATABASE_URL` variable in `.env`.  
+The specified database user needs to be able to connect and to alter the database schema.
+* The `JWT_SECRET` is set in `.env`.
+
+Of course you can deviate from this if you want to run this project yourself.
+
+On startup, the container runs migrations and then starts the server.
