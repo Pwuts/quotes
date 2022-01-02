@@ -48,6 +48,7 @@ function formatSubquote(subquote: Omit<Subquote, 'quoteId'>): string
     &::after {
       content: '';
       display: block;
+      height: 0.75em;
     }
 
     .subquote-text + .quotee {
