@@ -1,6 +1,7 @@
 <template>
+<div class="quote-wrapper">
 <div class="quote">
-  <p v-if="quote.subquotes.length == 1">
+    <p class="subquote" v-if="quote.subquotes.length == 1">
     <span class="subquote-text">"{{quote.subquotes[0].text}}"</span> <span class="quotee">~ {{quote.subquotes[0].quotee}}</span>
   </p>
 
@@ -14,6 +15,7 @@
   </table>
 
   <span class="date" v-text="formatDate(quote.createdAt)"></span>
+</div>
 </div>
 </template>
 
@@ -32,9 +34,49 @@ function formatSubquote(subquote: Omit<Subquote, 'quoteId'>): string
 </script>
 
 <style lang="scss">
+.quote-wrapper {
+  text-align: center;
+}
 .quote {
+  text-align: left;
+  display: inline;
+
+  p.subquote {
+    display: inline;
+    text-align: right !important;
+
+    &::after {
+      content: '';
+      display: block;
+    }
+
+    .subquote-text + .quotee {
+      margin-left: 0.5em;
+    }
+    .subquote-text + .quotee::after {
+      content: '';
+      display: block;
+    }
+  }
+
   table {
     border-spacing: 0.75em;
+
+    tr.subquote {
+      width: auto;
+
+      .quotee {
+        text-align: right;
+        padding-top: 0.1em;
+        vertical-align: baseline;
+      }
+
+      .subquote-text {
+        margin-left: 0;
+        display: inline;
+        vertical-align: baseline;
+      }
+    }
   }
 
   .subquote-text {
@@ -44,18 +86,11 @@ function formatSubquote(subquote: Omit<Subquote, 'quoteId'>): string
       font-style: italic;
     }
   }
+
   .quotee {
     white-space: nowrap;
     font-size: 1.4em;
     color: var(--secondary-text);
-  }
-  td.quotee {
-    text-align: right;
-    padding-top: 0.1em;
-    vertical-align: baseline;
-  }
-  .quotee + .subquote-text, .subquote-text + .quotee {
-    margin-left: 1em;
   }
   .date {
     float: right;

@@ -38,10 +38,10 @@ const filteredQuotes = computed(() => !query.value ? quotes :
     font-size: 0.75rem;
   }
 
-  .quote {
+  .quote-wrapper {
     margin-top: 5em;
   }
-  h2.add-quote + .quote {
+  h2.add-quote + .quote-wrapper {
     margin-top: 1em;
   }
 }
