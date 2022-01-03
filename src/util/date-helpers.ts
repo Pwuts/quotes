@@ -9,18 +9,18 @@ const days = {
 };
 
 const months = {
-  1: 'januari',
-  2: 'februari',
-  3: 'maart',
-  4: 'april',
-  5: 'mei',
-  6: 'juni',
-  7: 'juli',
-  8: 'augustus',
-  9: 'september',
-  10: 'oktober',
-  11: 'november',
-  12: 'december',
+  0: 'januari',
+  1: 'februari',
+  2: 'maart',
+  3: 'april',
+  4: 'mei',
+  5: 'juni',
+  6: 'juli',
+  7: 'augustus',
+  8: 'september',
+  9: 'oktober',
+  10: 'november',
+  11: 'december',
 };
 
 const dayDuration = 24*3600*1000;
