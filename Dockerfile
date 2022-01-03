@@ -22,7 +22,7 @@ CMD npx prisma migrate deploy && yarn start
 
 COPY package.json yarn.lock ./
 COPY prisma ./prisma/
-RUN yarn install --production --frozen-lockfile
+RUN yarn install --production --frozen-lockfile && yarn cache clean
 
 COPY --from=builder /tmp/build-env/.output ./.output
 
