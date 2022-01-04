@@ -1,19 +1,19 @@
 <template>
 <main class="container">
   <p class="public-prompt">
-    Mag deze quote publiek zijn?&nbsp;
+    {{ getLocalizedString('shouldQuoteBePublic') }}&nbsp;
 
     <span class="nowrap">
       <span class="clickable"
         :class="{ inactive: !newQuote.public }"
         @click="newQuote.public = true">
-        ja
+        {{ getLocalizedString('yes') }}
       </span>
       &nbsp;
       <span class="clickable"
         :class="{ inactive: newQuote.public }"
         @click="newQuote.public = false">
-        nee
+        {{ getLocalizedString('no') }}
       </span>
     </span>
   </p>
@@ -55,28 +55,28 @@
         <td class="actions nowrap">
           <i class="clickable icon" v-if="newQuote.subquotes.length > 1"
             @click="removeSubquote(i)"
-            title="deze regel verwijderen">
+            :title="getLocalizedString('lineDelete')">
             🗑️
           </i>
           <i class="clickable icon disabled" v-else>🗑️</i>
 
           <i class="clickable icon" v-if="i > 0"
             @click="moveSubquoteUp(i)"
-            title="deze regel omhoog verplaatsen">
+            :title="getLocalizedString('lineMoveUp')">
             ⬆️
           </i>
           <i class="clickable icon disabled" v-else>⬆️</i>
 
           <i class="clickable icon" v-if="i < newQuote.subquotes.length - 1"
             @click="moveSubquoteDown(i)"
-            title="deze regel omlaag verplaatsen">
+            :title="getLocalizedString('lineMoveDown')">
             ⬇️
           </i>
           <i class="clickable icon disabled" v-else>⬇️</i>
 
           <i class="clickable text-icon"
             @click="addSubquote(i)"
-            title="een regel toevoegen"
+            :title="getLocalizedString('lineAdd')"
           >+</i>
         </td>
       </tr>
@@ -88,13 +88,14 @@
     :class="{ error: saveError }"
     @click="attemptSaveQuote"
   >
-    quotuleer &nbsp;<i class="icon">💾</i>
+    {{ getLocalizedString('saveQuote') }} &nbsp;<i class="icon">💾</i>
   </button>
 </main>
 </template>
 
 <script lang="ts" setup>
 import { Quote as QuoteType, Subquote as SubquoteType } from '@prisma/client'
+import { getLocalizedString } from '~/util/localization'
 const authState = useAuthState();
 const router = useRouter();
 
@@ -170,8 +171,8 @@ function moveSubquoteDown(i: number)
 }
 
 const subquoteRules: ((s: EmptyQuote['subquotes'][number]) => string | null)[] = [
-  s => s.quotee.length >= 3 ? null : 'naam moet 3 tekens of langer zijn',
-  s => s.text.length > 0 ? null : 'regel moet tekst bevatten',
+  s => s.quotee.length >= 3 ? null : getLocalizedString('errorNameTooShort'),
+  s => s.text.length > 0 ? null : getLocalizedString('errorTextEmpty'),
 ];
 
 const subquoteValidateErrors = ref<(string | null)[]>([]);

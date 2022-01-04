@@ -3,24 +3,25 @@
   <form class="container" onsubmit="return false">
     <input type="email"
       autocomplete="email"
-      placeholder="email"
+      :placeholder="getLocalizedString('email')"
       v-model="email"
       :class="{ error: loginFailed }"
     />
 
     <input type="password"
       autocomplete="current-password"
-      placeholder="password"
+      :placeholder="getLocalizedString('password')"
       v-model="password"
       :class="{ error: loginFailed }"
     />
 
-    <button @click="attemptLogin">log in</button>
+    <button @click="attemptLogin" v-text="getLocalizedString('signIn')"></button>
   </form>
 </main>
 </template>
 
 <script lang="ts" setup>
+import { getLocalizedString } from '~/util/localization'
 const authState = useAuthState();
 const router = useRouter();
 

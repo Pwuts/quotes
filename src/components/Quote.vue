@@ -13,14 +13,14 @@
   <tbody>
     <tr class="subquote" v-for="subquote in quote.subquotes">
       <td class="quotee">{{subquote.quotee}}: </td>
-      <td class="subquote-text" :class="{ action: subquote.isAction }" v-text="formatSubquote(subquote)"></td>
+      <td class="subquote-text" :class="{ action: subquote.isAction }" v-text="formatSubquoteText(subquote)"></td>
     </tr>
   </tbody>
   </table>
 
   <span class="meta">
     <i class="icon" v-if="authState.loggedIn && !quote.public"
-      title="deze quote is niet publiek"
+      :title="getLocalizedString('thisQuoteNotPublic')"
     >🙈</i>
     {{ formatDate(quote.createdAt) }}
   </span>
@@ -29,18 +29,14 @@
 </template>
 
 <script lang="ts" setup>
+import { getLocalizedString } from '~/util/localization'
 import { Quote, Subquote } from '@prisma/client'
-import { formatDate } from '~/util/date-helpers'
+import { formatDate, formatSubquoteText } from '~/util/formatters'
 const authState = useAuthState();
 
 const { quote } = defineProps<{
   quote: (Quote & { subquotes: Omit<Subquote, 'quoteId'>[]}),
 }>();
-
-function formatSubquote(subquote: Omit<Subquote, 'quoteId'>): string
-{
-  return subquote.isAction ? `*${subquote.text}*` : `"${subquote.text}"`;
-}
 </script>
 
 <style lang="scss">

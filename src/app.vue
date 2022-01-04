@@ -1,19 +1,21 @@
 <template>
 <div class="bar">
-  <NuxtLink to="/">start</NuxtLink>
+  <NuxtLink to="/">{{ getLocalizedString('home') }}</NuxtLink>
 
-  <div class="sub">
-    <NuxtLink to="/login" v-if="!authState.loggedIn">log in</NuxtLink>
-    <a href="#"           v-else @click="logOut">log uit</a>
-
-    <NuxtLink to="/register" v-if="!authState.loggedIn">registreer</NuxtLink>
-    <NuxtLink to="/profile"  v-else>profiel</NuxtLink>
+  <div class="sub" v-if="!authState.loggedIn">
+    <NuxtLink to="/login"   >{{ getLocalizedString('signIn') }}</NuxtLink>
+    <NuxtLink to="/register">{{ getLocalizedString('signUp') }}</NuxtLink>
+  </div>
+  <div class="sub" v-else>
+    <a href="#" @click="logOut">{{ getLocalizedString('signOut') }}</a>
+    <NuxtLink   to="/profile"  >{{ getLocalizedString('profile') }}</NuxtLink>
   </div>
 </div>
 <NuxtPage/>
 </template>
 
 <script lang="ts" setup>
+import { getLocalizedString } from '~/util/localization'
 const authState = useAuthState();
 const router = useRouter();
 

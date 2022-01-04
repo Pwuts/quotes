@@ -3,20 +3,23 @@
   <h1 class="name">{{authState.user.name}}</h1>
   <h4 class="email">{{authState.user.email}}</h4>
   <span class="stats">
-    <em>{{ profile._count.authoredQuotes }}</em> quotes
+    <em>{{ profile._count.authoredQuotes }}</em> {{ getLocalizedString(profile._count.authoredQuotes == 1 ? 'quote' : 'quotes') }}
     &nbsp; - &nbsp;
-    <em>{{ profile._count.invitees }}</em> gebruikers
-    <a href="#"
+    <em>
+      {{ profile._count.invitees }}
+    </em> <a href="#"
       @click="invite"
-      title="klik hier om een uitnodigingslink te maken">
-      uitgenodigd
+      :title="getLocalizedString('clickToInvite')"
+      v-text="getLocalizedString(profile._count.invitees == 1 ? 'invitee' : 'invitees')">
     </a>
   </span>
+
   <QuoteList :quotes="profile.authoredQuotes"/>
 </main>
 </template>
 
 <script lang="ts" setup>
+import { getLocalizedString } from '~/util/localization'
 const authState = useAuthState();
 const router = useRouter();
 

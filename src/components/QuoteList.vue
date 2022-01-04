@@ -1,6 +1,6 @@
 <template>
 <div class="container quote-list">
-  <input type="search" placeholder="zoeken" v-model="query"/>
+  <input type="search" :placeholder="getLocalizedString('search')" v-model="query"/>
 
   <h2 class="clickable add-quote"
     v-if="authState.loggedIn"
@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import { Quote as QuoteType, Subquote as SubquoteType } from '@prisma/client'
+import { getLocalizedString } from '~/util/localization'
 const authState = useAuthState();
 
 const { quotes } = defineProps<{

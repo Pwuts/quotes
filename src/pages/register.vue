@@ -3,38 +3,39 @@
   <form class="container" onsubmit="return false">
     <input type="text"
       autocomplete="name"
-      placeholder="name"
+      :placeholder="getLocalizedString('name')"
       v-model="name"
       :class="{ error: signupFailed }"
     />
 
     <input type="email"
       autocomplete="email"
-      placeholder="email"
+      :placeholder="getLocalizedString('email')"
       v-model="email"
       :class="{ error: signupFailed }"
     />
 
     <input type="password"
       autocomplete="new-password"
-      placeholder="password"
+      :placeholder="getLocalizedString('password')"
       v-model="password"
       :class="{ error: signupFailed }"
     />
 
     <input type="text"
       autocomplete="one-time-code"
-      placeholder="invite token"
+      :placeholder="getLocalizedString('inviteToken')"
       v-model="inviteToken"
       :class="{ error: signupFailed }"
     />
 
-    <button @click="attemptSignup">registreer</button>
+    <button @click="attemptSignup" v-text="getLocalizedString('signUp')"></button>
   </form>
 </main>
 </template>
 
 <script lang="ts" setup>
+import { getLocalizedString } from '~/util/localization'
 const authState = useAuthState();
 const router = useRouter();
 
