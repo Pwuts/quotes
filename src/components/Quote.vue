@@ -27,6 +27,13 @@
           >🙈</i
         >
         {{ formatDate(quote.createdAt) }}
+        <a
+          class="icon"
+          v-if="quote.onEditClick"
+          @click="quote.onEditClick(quote.id)"
+          :title="getLocalizedString('edit')"
+          >✏️</a
+        >
       </span>
     </div>
   </div>
@@ -39,7 +46,10 @@ import { formatDate, formatSubquoteText } from "~/util/formatters";
 const authState = useAuthState();
 
 const { quote } = defineProps<{
-  quote: Quote & { subquotes: Omit<Subquote, "quoteId">[] };
+  quote: Quote & {
+    subquotes: Omit<Subquote, "quoteId">[];
+    onEditClick?: (quoteID: number) => void;
+  };
 }>();
 </script>
 

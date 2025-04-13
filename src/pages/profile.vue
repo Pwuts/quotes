@@ -43,6 +43,7 @@ const { data: profile } = await useFetch("/api/user", {
         ...serializedObj,
         createdAt: new Date(serializedObj.createdAt),
         updatedAt: new Date(serializedObj.updatedAt),
+        onEditClick: (quoteID: number) => router.push(`/compose?edit=${quoteID}`),
       }))
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
   }),

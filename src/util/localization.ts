@@ -7,6 +7,7 @@ type Language = {
     | "no"
     | "today"
     | "yesterday"
+    | "edit"
     | "email"
     | "home"
     | "invitee"
@@ -52,6 +53,7 @@ const languages: Record<SupportedLanguage, Language> = {
       today: "vandaag",
       yesterday: "gisteren",
 
+      edit: "bewerken",
       email: "e-mail",
       home: "start",
       invitee: "gebruiker uitgenodigd",
@@ -91,6 +93,7 @@ const languages: Record<SupportedLanguage, Language> = {
       today: "today",
       yesterday: "yesterday",
 
+      edit: "edit",
       email: "email",
       home: "home",
       invitee: "invitee",
