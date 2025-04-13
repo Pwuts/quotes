@@ -22,6 +22,7 @@ type Language = {
     | "quote"
     | "quotes"
     | "saveQuote"
+    | "updateQuote"
     | "search"
     | "signIn"
     | "signOut"
@@ -66,6 +67,7 @@ const languages: Record<SupportedLanguage, Language> = {
       quote: "quote",
       quotes: "quotes",
       saveQuote: "quotuleer",
+      updateQuote: "werk bij",
       search: "zoeken",
       signIn: "log in",
       signOut: "log uit",
@@ -104,6 +106,7 @@ const languages: Record<SupportedLanguage, Language> = {
       quote: "quote",
       quotes: "quotes",
       saveQuote: "save quote",
+      updateQuote: "update quote",
       search: "search",
       signIn: "log in",
       signOut: "log out",

@@ -29,8 +29,8 @@
             class="subquote"
             v-for="(subquote, i) in newQuote.subquotes"
             :ref="
-              (el: HTMLTableRowElement | null) => {
-                if (el) subquoteLines[i] = el;
+              (el) => {
+                if (el) subquoteLines[i] = el as Element;
               }
             "
             :title="subquoteValidateErrors[i] ?? undefined"
@@ -116,7 +116,8 @@
       :class="{ error: saveError }"
       @click="attemptSaveQuote"
     >
-      {{ getLocalizedString("saveQuote") }} &nbsp;<i class="icon">💾</i>
+      {{ getLocalizedString(isEditing ? "updateQuote" : "saveQuote") }}
+      &nbsp;<i class="icon">💾</i>
     </button>
   </main>
 </template>
@@ -126,13 +127,19 @@ import { type Quote as QuoteType, type Subquote as SubquoteType } from "@prisma/
 import { getLocalizedString } from "~/util/localization";
 const authState = useAuthState();
 const router = useRouter();
+const route = useRoute();
 
 if (!authState.value.loggedIn) {
   router.push("/");
 }
 
+const isEditing = computed(() => !!route.query.edit);
+const quoteID = computed(() =>
+  route.query.edit ? parseInt(route.query.edit as string) : null,
+);
+
 let newQuote: EmptyQuote = reactive({
-  authorId: authState.value.user?.id,
+  authorId: authState.value.user?.id ?? null,
   public: true,
   subquotes: [
     {
@@ -143,7 +150,28 @@ let newQuote: EmptyQuote = reactive({
   ],
 });
 
-const subquoteLines = ref<HTMLTableRowElement[]>([]);
+// Load existing quote if in edit mode
+onMounted(async () => {
+  if (isEditing.value && quoteID.value) {
+    try {
+      const quote = await $fetch(`/api/quotes/${quoteID.value}`, {
+        headers: authState.getAuthHeader(),
+      });
+
+      newQuote.public = quote.public;
+      newQuote.subquotes = quote.subquotes.map((sq) => ({
+        quotee: sq.quotee,
+        text: sq.text,
+        isAction: sq.isAction,
+      }));
+    } catch (error) {
+      console.error("Failed to load quote for editing:", error);
+      router.push("/");
+    }
+  }
+});
+
+const subquoteLines = ref<Element[]>([]);
 onBeforeUpdate(() => (subquoteLines.value = []));
 
 function gotoNext(from: number) {
@@ -217,24 +245,46 @@ function attemptSaveQuote() {
     return;
   }
 
-  $fetch("/api/quotes", {
-    headers: authState.getAuthHeader(),
-    method: "POST",
-    body: {
-      public: newQuote.public,
-      subquotes: newQuote.subquotes.map((sq, i) => ({
-        ...sq,
-        subquoteId: i + 1,
-      })),
-    },
-  })
-    .then(() => {
-      saveError.value = false;
-      router.push("/");
+  const subquotesWithIDs = newQuote.subquotes.map((sq, i) => ({
+    ...sq,
+    subquoteId: i + 1,
+  }));
+
+  if (isEditing.value && quoteID.value) {
+    // Update existing quote
+    $fetch(`/api/quotes/${quoteID.value}`, {
+      headers: authState.getAuthHeader(),
+      method: "POST",
+      body: {
+        public: newQuote.public,
+        subquotes: subquotesWithIDs,
+      },
     })
-    .catch(() => {
-      saveError.value = true;
-    });
+      .then(() => {
+        saveError.value = false;
+        router.push("/");
+      })
+      .catch(() => {
+        saveError.value = true;
+      });
+  } else {
+    // Create new quote
+    $fetch("/api/quotes", {
+      headers: authState.getAuthHeader(),
+      method: "POST",
+      body: {
+        public: newQuote.public,
+        subquotes: subquotesWithIDs,
+      },
+    })
+      .then(() => {
+        saveError.value = false;
+        router.push("/");
+      })
+      .catch(() => {
+        saveError.value = true;
+      });
+  }
 }
 
 type EmptyQuote = Omit<QuoteType, "id" | "createdAt" | "updatedAt"> & {

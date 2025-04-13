@@ -27,11 +27,11 @@ export default defineEventHandler(async (event): Promise<QuoteResponse | void> =
     return sendError(event, createError(401));
   }
 
-  const quote = await prisma.quote.findUnique({
+  const existing = await prisma.quote.findUnique({
     where: { id: quoteID },
     include: { subquotes: true },
   });
-  if (!quote) {
+  if (!existing) {
     return sendError(event, createError(404));
   }
 
@@ -56,23 +56,23 @@ export default defineEventHandler(async (event): Promise<QuoteResponse | void> =
         ? undefined
         : {
             deleteMany:
-              input.subquotes.length >= quote.subquotes.length
+              input.subquotes.length >= existing.subquotes.length
                 ? undefined
                 : {
                     subquoteId: { gt: input.subquotes.length },
                   },
 
             createMany:
-              input.subquotes.length < quote.subquotes.length
+              input.subquotes.length < existing.subquotes.length
                 ? undefined
                 : {
                     data: input.subquotes
-                      .filter((s) => s.subquoteId > quote.subquotes.length)
+                      .filter((s) => s.subquoteId > existing.subquotes.length)
                       .map((s) => ({ ...s })),
                   },
 
             updateMany: input.subquotes
-              .filter((s) => s.subquoteId <= quote.subquotes.length)
+              .filter((s) => s.subquoteId <= existing.subquotes.length)
               .map((s) => ({
                 where: { subquoteId: s.subquoteId },
                 data: { ...s, subquoteId: undefined },
