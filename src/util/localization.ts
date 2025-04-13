@@ -152,7 +152,7 @@ function getLocale(): SupportedLanguage {
 }
 
 function _getSupportedPreferredLocales(): SupportedLanguage[] {
-  if (process.server) {
+  if (import.meta.server) {
     const reqLanguagesHeader = useRequestHeaders(["accept-language"])[
       "accept-language"
     ];
@@ -161,7 +161,7 @@ function _getSupportedPreferredLocales(): SupportedLanguage[] {
         (l) => l.includes("-") && l.slice(0, 2) in languages,
       ) as SupportedLanguage[];
     }
-  } else if (process.client) {
+  } else if (import.meta.client) {
     return navigator.languages.filter(
       (l) => l.includes("-") && l.slice(0, 2) in languages,
     ) as SupportedLanguage[];
