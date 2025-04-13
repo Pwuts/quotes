@@ -146,19 +146,21 @@ function getLocale(): SupportedLanguage {
 }
 
 function _getSupportedPreferredLocales(): SupportedLanguage[] {
-  if (process.server) {
+  if (import.meta.server) {
     const reqLanguagesHeader = useRequestHeaders(["accept-language"])[
       "accept-language"
     ];
     if (reqLanguagesHeader) {
-      return _parseLanguageHeader(reqLanguagesHeader).filter(
-        (l) => l.includes("-") && l.slice(0, 2) in languages,
-      ) as SupportedLanguage[];
+      return _parseLanguageHeader(reqLanguagesHeader)
+        .filter((l) => l.includes("-"))
+        .map((l) => l.slice(0, 2))
+        .filter((l) => l in languages) as SupportedLanguage[];
     }
-  } else if (process.client) {
-    return navigator.languages.filter(
-      (l) => l.includes("-") && l.slice(0, 2) in languages,
-    ) as SupportedLanguage[];
+  } else if (import.meta.client) {
+    return navigator.languages
+      .filter((l) => l.includes("-"))
+      .map((l) => l.slice(0, 2))
+      .filter((l) => l in languages) as SupportedLanguage[];
   }
 
   return [];
