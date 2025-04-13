@@ -29,8 +29,8 @@
             class="subquote"
             v-for="(subquote, i) in newQuote.subquotes"
             :ref="
-              (el: HTMLTableRowElement | null) => {
-                if (el) subquoteLines[i] = el;
+              (el) => {
+                if (el) subquoteLines[i] = el as Element;
               }
             "
             :title="subquoteValidateErrors[i] ?? undefined"
@@ -132,7 +132,7 @@ if (!authState.value.loggedIn) {
 }
 
 let newQuote: EmptyQuote = reactive({
-  authorId: authState.value.user?.id,
+  authorId: authState.value.user?.id ?? null,
   public: true,
   subquotes: [
     {
@@ -143,7 +143,7 @@ let newQuote: EmptyQuote = reactive({
   ],
 });
 
-const subquoteLines = ref<HTMLTableRowElement[]>([]);
+const subquoteLines = ref<Element[]>([]);
 onBeforeUpdate(() => (subquoteLines.value = []));
 
 function gotoNext(from: number) {
