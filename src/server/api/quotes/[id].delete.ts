@@ -11,7 +11,13 @@ export default defineEventHandler(async (event) => {
     return sendError(event, createError(404));
   }
 
-  const deletedQuote = await prisma.quote.delete({ where: { id: quoteID } });
+  if (!event.context.user) {
+    return sendError(event, createError(401));
+  }
+
+  const deletedQuote = await prisma.quote.delete({
+    where: { id: quoteID, authorId: event.context.user.id },
+  });
   if (!deletedQuote) {
     return sendError(event, createError(404));
   }
