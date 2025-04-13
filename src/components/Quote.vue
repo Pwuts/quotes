@@ -28,7 +28,8 @@
         >
         {{ formatDate(quote.createdAt) }}
         <a
-          class="icon"
+          href="#"
+          class="icon clickable"
           v-if="quote.onEditClick"
           @click="quote.onEditClick(quote.id)"
           :title="getLocalizedString('edit')"
