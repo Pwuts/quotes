@@ -34,6 +34,9 @@ export default defineEventHandler(async (event): Promise<QuoteResponse | void> =
   if (!existing) {
     return sendError(event, createError(404));
   }
+  if (existing.authorId !== event.context.user.id) {
+    return sendError(event, createError(403));
+  }
 
   const input = await readBody<QuoteUpdateRequest>(event);
 
