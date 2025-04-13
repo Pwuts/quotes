@@ -148,7 +148,7 @@ export function getDateFormatter(
 }
 
 function getLocale(): SupportedLanguage {
-  return _getSupportedPreferredLocales()[0] ?? FALLBACK_LOCALE;
+  return _getSupportedPreferredLocales()[0] ?? FALLBACK_LANGUAGE;
 }
 
 function _getSupportedPreferredLocales(): SupportedLanguage[] {
