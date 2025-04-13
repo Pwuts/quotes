@@ -1,41 +1,45 @@
 <template>
-<div class="quote-wrapper">
-<div class="quote">
-  <p class="subquote" v-if="quote.subquotes.length == 1">
-    <span class="subquote-text">
-      "{{quote.subquotes[0].text}}"
-    </span> <span class="quotee nowrap">
-      ~ {{quote.subquotes[0].quotee}}
-    </span>
-  </p>
+  <div class="quote-wrapper">
+    <div class="quote">
+      <p class="subquote" v-if="quote.subquotes.length == 1">
+        <span class="subquote-text"> "{{ quote.subquotes[0].text }}" </span>
+        <span class="quotee nowrap"> ~ {{ quote.subquotes[0].quotee }} </span>
+      </p>
 
-  <table v-else>
-  <tbody>
-    <tr class="subquote" v-for="subquote in quote.subquotes">
-      <td class="quotee">{{subquote.quotee}}: </td>
-      <td class="subquote-text" :class="{ action: subquote.isAction }" v-text="formatSubquoteText(subquote)"></td>
-    </tr>
-  </tbody>
-  </table>
+      <table v-else>
+        <tbody>
+          <tr class="subquote" v-for="subquote in quote.subquotes">
+            <td class="quotee">{{ subquote.quotee }}:</td>
+            <td
+              class="subquote-text"
+              :class="{ action: subquote.isAction }"
+              v-text="formatSubquoteText(subquote)"
+            ></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <span class="meta">
-    <i class="icon" v-if="authState.loggedIn && !quote.public"
-      :title="getLocalizedString('thisQuoteNotPublic')"
-    >🙈</i>
-    {{ formatDate(quote.createdAt) }}
-  </span>
-</div>
-</div>
+      <span class="meta">
+        <i
+          class="icon"
+          v-if="authState.loggedIn && !quote.public"
+          :title="getLocalizedString('thisQuoteNotPublic')"
+          >🙈</i
+        >
+        {{ formatDate(quote.createdAt) }}
+      </span>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { getLocalizedString } from '~/util/localization'
-import { Quote, Subquote } from '@prisma/client'
-import { formatDate, formatSubquoteText } from '~/util/formatters'
+import { getLocalizedString } from "~/util/localization";
+import { type Quote, type Subquote } from "@prisma/client";
+import { formatDate, formatSubquoteText } from "~/util/formatters";
 const authState = useAuthState();
 
 const { quote } = defineProps<{
-  quote: (Quote & { subquotes: Omit<Subquote, 'quoteId'>[]}),
+  quote: Quote & { subquotes: Omit<Subquote, "quoteId">[] };
 }>();
 </script>
 
@@ -71,13 +75,13 @@ const { quote } = defineProps<{
     text-align: right !important;
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       height: 0.75em;
     }
 
     .subquote-text + .quotee::after {
-      content: '';
+      content: "";
       display: block;
     }
   }

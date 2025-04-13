@@ -1,6 +1,12 @@
+*.env
+.pre-commit*
+docker-compose.yml
+
 .git
 .gitignore
-*.env
+.nuxt/
+.output/
+node_modules/
 
 README.md
 LICENSE

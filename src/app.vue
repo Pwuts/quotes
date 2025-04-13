@@ -1,28 +1,27 @@
 <template>
-<div class="bar">
-  <NuxtLink to="/">{{ getLocalizedString('home') }}</NuxtLink>
+  <div class="bar">
+    <NuxtLink to="/">{{ getLocalizedString("home") }}</NuxtLink>
 
-  <div class="sub" v-if="!authState.loggedIn">
-    <NuxtLink to="/login"   >{{ getLocalizedString('signIn') }}</NuxtLink>
-    <NuxtLink to="/register">{{ getLocalizedString('signUp') }}</NuxtLink>
+    <div class="sub" v-if="!authState.loggedIn">
+      <NuxtLink to="/login">{{ getLocalizedString("signIn") }}</NuxtLink>
+      <NuxtLink to="/register">{{ getLocalizedString("signUp") }}</NuxtLink>
+    </div>
+    <div class="sub" v-else>
+      <a href="#" @click="logOut">{{ getLocalizedString("signOut") }}</a>
+      <NuxtLink to="/profile">{{ getLocalizedString("profile") }}</NuxtLink>
+    </div>
   </div>
-  <div class="sub" v-else>
-    <a href="#" @click="logOut">{{ getLocalizedString('signOut') }}</a>
-    <NuxtLink   to="/profile"  >{{ getLocalizedString('profile') }}</NuxtLink>
-  </div>
-</div>
-<NuxtPage/>
+  <NuxtPage />
 </template>
 
 <script lang="ts" setup>
-import { getLocalizedString } from '~/util/localization'
+import { getLocalizedString } from "~/util/localization";
 const authState = useAuthState();
 const router = useRouter();
 
-function logOut()
-{
+function logOut() {
   authState.reset();
-  router.push('/');
+  router.push("/");
 }
 </script>
 
@@ -31,9 +30,9 @@ function logOut()
   font-size: 24px;
 
   --primary-bg: #222;
-  --primary-text: #FFF8;
-  --secondary-text: #FFF6;
-  --tertiary-text: #FFF4;
+  --primary-text: #fff8;
+  --secondary-text: #fff6;
+  --tertiary-text: #fff4;
 }
 
 * {
@@ -74,6 +73,8 @@ body {
 }
 
 main {
+  flex-grow: 1;
+
   &.container {
     padding: 0.5em 2em 1.5em;
 
@@ -81,8 +82,6 @@ main {
       padding: 0.75em;
     }
   }
-  flex-grow: 1;
-
 }
 
 .container {
@@ -99,19 +98,28 @@ main {
   }
 }
 
-a, a:visited {
+a,
+a:visited {
   color: var(--secondary-text);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
 }
 
-input[type=text], input[type=search],
-input[type=email], input[type=password],
-button, input[type=button] {
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+button,
+input[type="button"] {
   padding: 0.25em 0.5em;
-  border: solid #FFF5;
+  border: solid #fff5;
   border-width: 0 0 2px;
 
   font-size: 1em;
@@ -123,7 +131,8 @@ button, input[type=button] {
   }
 }
 
-button, input[type=button] {
+button,
+input[type="button"] {
   cursor: pointer;
 
   &.block {
@@ -131,18 +140,21 @@ button, input[type=button] {
   }
 }
 
-input[type=text], input[type=search],
-input[type=email], input[type=password] {
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"] {
   &::placeholder {
     color: var(--tertiary-text);
   }
 }
 
-i.icon, .text-icon {
+i.icon,
+.text-icon {
   font-style: normal;
   user-select: none;
   letter-spacing: -0.1em;
-  color: #FFFC;
+  color: #fffc;
 
   &.disabled {
     color: var(--tertiary-text);
@@ -153,7 +165,8 @@ i.icon, .text-icon {
   font-size: 1.25em;
   padding: 0 0.3em;
 }
-button, span {
+button,
+span {
   i.icon {
     font-size: 0.8em;
   }
@@ -167,7 +180,8 @@ button, span {
   }
 }
 
-.disabled, .inactive {
+.disabled,
+.inactive {
   color: var(--tertiary-text);
 }
 

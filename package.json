@@ -1,26 +1,34 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "type-check": "vue-tsc --noEmit",
     "start": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "@prisma/client": "3.7.0",
-    "argon2": "^0.28.3",
-    "crypto-random-string": "^4.0.0",
-    "h3": "^0.3.8",
+    "@prisma/client": "^6.6.0",
+    "argon2": "^0.41.1",
+    "crypto-random-string": "^5.0.0",
+    "h3": "^1.15.1",
     "http-errors": "^2.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.2",
+    "nuxt": "^3.16.2",
     "statuses": "^2.0.1"
   },
   "devDependencies": {
-    "@types/http-errors": "^1.8.1",
-    "@types/jsonwebtoken": "^8.5.6",
-    "@types/statuses": "^2.0.0",
-    "dotenv": "^10.0.0",
-    "nuxt3": "latest",
-    "prisma": "^3.7.0",
-    "sass": "^1.45.2"
+    "@types/http-errors": "^2.0.4",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/statuses": "^2.0.5",
+    "dotenv": "^16.5.0",
+    "prettier": "^3.5.3",
+    "prisma": "^6.6.0",
+    "sass": "^1.86.3",
+    "typescript": "^5.8.3",
+    "vue-tsc": "^2.2.8"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "prettier": {
+    "printWidth": 88
   }
 }

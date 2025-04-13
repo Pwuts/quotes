@@ -1,5 +1,5 @@
 # build application
-FROM node:16-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /tmp/build-env
 
@@ -13,7 +13,7 @@ RUN yarn build
 
 
 # build runner image
-FROM node:16-alpine AS runner
+FROM node:20-alpine AS runner
 
 WORKDIR /usr/local/bin/quotes
 EXPOSE 3000
@@ -25,4 +25,3 @@ COPY prisma ./prisma/
 RUN yarn install --production --frozen-lockfile && yarn cache clean
 
 COPY --from=builder /tmp/build-env/.output ./.output
-

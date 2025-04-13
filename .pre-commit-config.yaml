@@ -1,0 +1,69 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: fix-byte-order-marker
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: Detect secrets
+        description: Detects high entropy strings that are likely to be passwords.
+        stages: [push]
+
+  - repo: local
+    # For proper type checking, all dependencies need to be up-to-date.
+    # It's also a good idea to check that yarn.lock is consistent with package.json.
+    hooks:
+      - id: yarn-install
+        name: Check & Install dependencies
+        entry: yarn install
+        language: system
+        files: ^yarn\.lock$
+        types: [file]
+        pass_filenames: false
+
+  - repo: local
+    # For proper type checking, Prisma client must be up-to-date.
+    hooks:
+      - id: prisma-generate
+        name: Prisma Generate
+        entry: yarn prisma generate
+        language: system
+        # include everything that triggers poetry install + the prisma schema
+        files: ^(yarn\.lock|prisma/schema\.prisma)$
+        types: [file]
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: prisma-format
+        name: Format (Prisma)
+        entry: yarn prisma generate
+        language: system
+        files: ^prisma/schema\.prisma$
+        types: [file]
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: prettier
+        name: Format (Prettier)
+        entry: yarn prettier --write
+        language: system
+        types_or: [ts, tsx, vue]
+
+  - repo: local
+    hooks:
+      - id: tsc
+        name: Typecheck
+        entry: yarn type-check
+        language: system
+        types: [file]
+        pass_filenames: false
