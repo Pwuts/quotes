@@ -15,12 +15,12 @@ Started for use in a friend group, this project is both a very minimal quote DB 
   - [x] Log in & register
   - [x] Profile
   - [x] Invite
-  - [ ] Edit quotes
+  - [x] Edit quotes
 - [ ] Complete README
 - [x] Docker configuration
 - [ ] Unbodge
   - [ ] Use native store instead of bodged cookie store for state persistence
-  - [ ] Make a proper API client
+  - [ ] ~~Make a proper API client~~
 
 ## Use
 
