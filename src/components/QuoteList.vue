@@ -26,7 +26,7 @@ const { quotes } = defineProps<{
 /* filter quotes by search query */
 let query = ref("");
 const filteredQuotes = computed(() =>
-  !query.value
+  (!query.value
     ? quotes
     : quotes.filter((q) =>
         q.subquotes.some(
@@ -34,7 +34,8 @@ const filteredQuotes = computed(() =>
             sq.text.toLowerCase().includes(query.value.toLowerCase()) ||
             sq.quotee.toLowerCase().includes(query.value.toLowerCase()),
         ),
-      ),
+      )
+  ).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
 );
 </script>
 

@@ -36,13 +36,11 @@ const { data: profile } = await useFetch("/api/user", {
   headers: authState.getAuthHeader(),
   transform: (profile) => ({
     ...profile,
-    authoredQuotes: profile.authoredQuotes
-      .map((serializedObj) => ({
-        ...serializedObj,
-        createdAt: new Date(serializedObj.createdAt),
-        updatedAt: new Date(serializedObj.updatedAt),
-      }))
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
+    authoredQuotes: profile.authoredQuotes.map((serializedObj) => ({
+      ...serializedObj,
+      createdAt: new Date(serializedObj.createdAt),
+      updatedAt: new Date(serializedObj.updatedAt),
+    })),
   }),
 }).then((result) => {
   if (result.data.value) {

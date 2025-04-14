@@ -11,13 +11,11 @@ const authState = useAuthState();
 const { data: quotes, refresh: refreshQuotes } = await useFetch("/api/quotes", {
   headers: authState.getAuthHeader(),
   transform: (quotes) =>
-    quotes
-      .map((serializedObj) => ({
-        ...serializedObj,
-        createdAt: new Date(serializedObj.createdAt),
-        updatedAt: new Date(serializedObj.updatedAt),
-      }))
-      .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))),
+    quotes.map((serializedObj) => ({
+      ...serializedObj,
+      createdAt: new Date(serializedObj.createdAt),
+      updatedAt: new Date(serializedObj.updatedAt),
+    })),
 });
 
 watch(authState.value, () => refreshQuotes());
