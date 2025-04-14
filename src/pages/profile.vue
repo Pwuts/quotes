@@ -49,6 +49,16 @@ const { data: profile } = await useFetch("/api/user", {
   return result;
 });
 
+// Add onEditClick function on client side
+onMounted(() => {
+  if (profile.value) {
+    profile.value.authoredQuotes = profile.value.authoredQuotes.map((quote) => ({
+      ...quote,
+      onEditClick: (quoteID: number) => router.push(`/compose?edit=${quoteID}`),
+    }));
+  }
+});
+
 function invite() {
   if (!profile.value) return;
   if (profile.value._count.invitations >= 5) {
