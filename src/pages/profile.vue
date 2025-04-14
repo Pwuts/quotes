@@ -6,9 +6,7 @@
       <em>{{ profile._count.authoredQuotes }}</em>
       {{ getLocalizedString(profile._count.authoredQuotes == 1 ? "quote" : "quotes") }}
       &nbsp; - &nbsp;
-      <em>
-        {{ profile._count.invitees }}
-      </em>
+      <em> {{ profile._count.invitees }} </em>{{ " " }}
       <a
         href="#"
         @click="invite"
