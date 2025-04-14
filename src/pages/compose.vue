@@ -262,7 +262,7 @@ function attemptSaveQuote() {
     })
       .then(() => {
         saveError.value = false;
-        router.push("/");
+        router.push("/profile");
       })
       .catch(() => {
         saveError.value = true;
