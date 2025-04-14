@@ -27,14 +27,14 @@
           >🙈</i
         >
         {{ formatDate(quote.createdAt) }}
-        <a
-          href="#"
-          class="icon clickable"
+        <button
+          class="icon"
           v-if="quote.onEditClick"
           @click="quote.onEditClick(quote.id)"
           :title="getLocalizedString('edit')"
-          >✏️</a
         >
+          ✏️
+        </button>
       </span>
     </div>
   </div>
