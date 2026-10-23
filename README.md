@@ -104,8 +104,8 @@ Again, the configured database user needs to have permission to alter the DB sch
 The docker configuration in this repository is made for the following environment:
 
 - An `nginx-proxy` (with `acme-companion`) container handles incoming HTTP traffic and certificates, and is reachable via a docker network named `web`.
-- A Postgres database is reachable via a docker network named `postgres`; its URL and credentials for it are set in the `DATABASE_URL` variable in `.env`.  
-  The specified database user needs to be able to connect and to alter the database schema.
+- The Postgres database runs alongside the server as the `db` service, with its data in the `pgdata` volume. Its password is set in the `DB_PASSWORD` variable in `.env`, and the server's `DATABASE_URL` is built from it.  
+  The database is also published on `127.0.0.1:5434`, for access through an SSH tunnel.
 - The `JWT_SECRET` is set in `.env`.
 
 Of course you can deviate from this if you want to run this project yourself.
