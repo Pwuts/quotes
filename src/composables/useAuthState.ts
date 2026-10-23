@@ -37,7 +37,7 @@ export default function useAuthState(): AuthState {
 
   watch(
     authState.value,
-    (newState) => (authStateStorage.value = JSON.stringify(newState)),
+    (newState: _AuthState) => (authStateStorage.value = JSON.stringify(newState)),
   );
 
   return Object.assign(authState, {

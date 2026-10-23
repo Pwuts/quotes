@@ -200,7 +200,8 @@ function validateSubquotes(sq: EmptyQuote["subquotes"]): boolean {
 
 watch(
   newQuote.subquotes,
-  (sq) => (saveError.value = !validateSubquotes(sq) && saveError.value),
+  (sq: EmptyQuote["subquotes"]) =>
+    (saveError.value = !validateSubquotes(sq) && saveError.value),
 );
 
 const saveError = ref(false);
