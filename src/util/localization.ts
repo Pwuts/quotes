@@ -7,6 +7,7 @@ type Language = {
     | "no"
     | "today"
     | "yesterday"
+    | "edit"
     | "email"
     | "home"
     | "invitee"
@@ -22,6 +23,7 @@ type Language = {
     | "quote"
     | "quotes"
     | "saveQuote"
+    | "updateQuote"
     | "search"
     | "signIn"
     | "signOut"
@@ -51,6 +53,7 @@ const languages: Record<SupportedLanguage, Language> = {
       today: "vandaag",
       yesterday: "gisteren",
 
+      edit: "bewerken",
       email: "e-mail",
       home: "start",
       invitee: "gebruiker uitgenodigd",
@@ -66,6 +69,7 @@ const languages: Record<SupportedLanguage, Language> = {
       quote: "quote",
       quotes: "quotes",
       saveQuote: "quotuleer",
+      updateQuote: "werk bij",
       search: "zoeken",
       signIn: "log in",
       signOut: "log uit",
@@ -89,6 +93,7 @@ const languages: Record<SupportedLanguage, Language> = {
       today: "today",
       yesterday: "yesterday",
 
+      edit: "edit",
       email: "email",
       home: "home",
       invitee: "invitee",
@@ -104,6 +109,7 @@ const languages: Record<SupportedLanguage, Language> = {
       quote: "quote",
       quotes: "quotes",
       saveQuote: "save quote",
+      updateQuote: "update quote",
       search: "search",
       signIn: "log in",
       signOut: "log out",

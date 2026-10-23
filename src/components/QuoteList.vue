@@ -20,7 +20,10 @@ import { getLocalizedString } from "~/util/localization";
 const authState = useAuthState();
 
 const { quotes } = defineProps<{
-  quotes: (QuoteType & { subquotes: Omit<SubquoteType, "quoteId">[] })[];
+  quotes: (QuoteType & {
+    subquotes: Omit<SubquoteType, "quoteId">[];
+    onEditClick?: (quoteID: number) => void;
+  })[];
 }>();
 
 /* filter quotes by search query */
