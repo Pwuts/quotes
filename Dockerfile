@@ -1,5 +1,5 @@
 # build application
-FROM node:20-alpine AS builder
+FROM node:24.22.1-alpine AS builder
 
 WORKDIR /tmp/build-env
 
@@ -13,7 +13,7 @@ RUN yarn build
 
 
 # build runner image
-FROM node:20-alpine AS runner
+FROM node:24.22.1-alpine AS runner
 
 WORKDIR /usr/local/bin/quotes
 EXPOSE 3000
