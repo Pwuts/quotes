@@ -5,18 +5,42 @@ services:
     build: .
     image: quotes-server
     environment:
-      - DATABASE_URL
+      - DATABASE_URL=postgresql://quotes:${DB_PASSWORD}@db:5432/quotes?schema=public
       - JWT_SECRET
       - NUXT_HOST=0.0.0.0
       - VIRTUAL_HOST=hoerkomtdelink.nl
       - LETSENCRYPT_HOST=hoerkomtdelink.nl
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
-      - postgres
+      - default
       - web
     restart: unless-stopped
 
+  db:
+    image: postgres:18-alpine
+    # re-pull on every deploy, so Postgres patch releases don't silently go stale
+    pull_policy: always
+    environment:
+      - POSTGRES_DB=quotes
+      - POSTGRES_USER=quotes
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    ports:
+      # loopback only, for admin access through an SSH tunnel
+      - 127.0.0.1:5434:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quotes -d quotes"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+
 networks:
-  postgres:
-    external: true
   web:
     external: true
